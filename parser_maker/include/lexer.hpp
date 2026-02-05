@@ -35,7 +35,15 @@ namespace parser_maker::lexer {
         CHOICE_OPERATOR,
         TERMINATOR,
         CHAR,
-        RANGE_OPERATOR
+        RANGE_OPERATOR,
+        SKIP_BEFORE,
+        SKIP_AFTER,
+        ERROR_SKIP_OPERATOR,
+        ERROR,
+        FALSE,
+        TRUE,
+        ANY,
+        END
     };
 
 
@@ -48,6 +56,9 @@ namespace parser_maker::lexer {
 
 
     bool tokenize(parse_context_type& pc);
+
+
+    std::string get_lexer_error_string(ERROR_ID id);
 
 
 } //namespace parser_maker::lexer
@@ -147,6 +158,38 @@ namespace parserlib {
 
                 case parser_maker::lexer::TOKEN_ID::RANGE_OPERATOR:
                     stream << "RANGE_OPERATOR";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::SKIP_BEFORE:
+                    stream << "SKIP_BEFORE";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::SKIP_AFTER:
+                    stream << "SKIP_AFTER";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::ERROR_SKIP_OPERATOR:
+                    stream << "ERROR_SKIP_OPERATOR";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::ERROR:
+                    stream << "ERROR";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::FALSE:
+                    stream << "FALSE";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::TRUE:
+                    stream << "TRUE";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::ANY:
+                    stream << "ANY";
+                    break;
+
+                case parser_maker::lexer::TOKEN_ID::FALSE:
+                    stream << "END";
                     break;
             }
         }

@@ -107,7 +107,7 @@ static void do_test_ebnf_style_1() {
             term4 - term5
             ;
 
-        factor3:
+        fact-or3:
             term1?
             term2*
             term3+

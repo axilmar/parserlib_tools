@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "lexer.hpp"
 
 
@@ -99,6 +100,7 @@ namespace parser_maker::lexer {
         | terminal("::=")->*TOKEN_ID::ASSIGNMENT_OPERATOR
         | terminal(":=")->*TOKEN_ID::ASSIGNMENT_OPERATOR
         | terminal("..")->*TOKEN_ID::RANGE_OPERATOR
+        | terminal("->")->*TOKEN_ID::ERROR_SKIP_OPERATOR
         | terminal('=')->*TOKEN_ID::ASSIGNMENT_OPERATOR
         | terminal(':')->*TOKEN_ID::ASSIGNMENT_OPERATOR
         | terminal('(')->*TOKEN_ID::GROUP_START
@@ -107,8 +109,8 @@ namespace parser_maker::lexer {
         | terminal(']')->*TOKEN_ID::OPTIONAL_END
         | terminal('{')->*TOKEN_ID::REPETITION_START
         | terminal('}')->*TOKEN_ID::REPETITION_END
-        | terminal('+')->*TOKEN_ID::LOOP_0_OPERATOR
-        | terminal('*')->*TOKEN_ID::LOOP_1_OPERATOR
+        | terminal('*')->*TOKEN_ID::LOOP_0_OPERATOR
+        | terminal('+')->*TOKEN_ID::LOOP_1_OPERATOR
         | terminal('-')->*TOKEN_ID::EXCLUSION_OPERATOR
         | terminal('?')->*TOKEN_ID::OPTIONAL_OPERATOR
         | terminal('!')->*TOKEN_ID::LOGICAL_NOT_OPERATOR
@@ -117,6 +119,13 @@ namespace parser_maker::lexer {
         | terminal('|')->*TOKEN_ID::CHOICE_OPERATOR
         | terminal(';')->*TOKEN_ID::TERMINATOR
         | terminal('.')->*TOKEN_ID::TERMINATOR
+        | terminal("$BEFORE")->*TOKEN_ID::SKIP_BEFORE
+        | terminal("$AFTER")->*TOKEN_ID::SKIP_AFTER
+        | terminal("$ERROR")->*TOKEN_ID::ERROR
+        | terminal("$FALSE")->*TOKEN_ID::FALSE
+        | terminal("$TRUE")->*TOKEN_ID::TRUE
+        | terminal("$ANY")->*TOKEN_ID::ANY
+        | terminal("$END")->*TOKEN_ID::END
         ;
 
 
@@ -140,6 +149,16 @@ namespace parser_maker::lexer {
 
     bool tokenize(parse_context_type& pc) {
         return grammar.parse(pc);
+    }
+
+
+    std::string get_lexer_error_string(ERROR_ID id) {
+        switch (id) {
+            case ERROR_ID::INVALID_CHARACTERS:
+                return "invalid characters";
+        }
+
+        throw std::logic_error("parser_maker::lexer::get_lexer_error_string: invalid error id");
     }
 
 

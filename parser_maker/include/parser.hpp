@@ -23,11 +23,18 @@ namespace parser_maker::parser {
         IDENTIFIER,
         IDENTIFIER_LEXER,
         CHAR,
-        CHAR_RANGE
+        CHAR_RANGE,
+        LOGICAL_AND,
+        LOGICAL_NOT,
+        FALSE,
+        TRUE,
+        ANY,
+        END
     };
 
 
     enum class ERROR_ID {
+        SYNTAX_ERROR
     };
 
 
@@ -35,6 +42,9 @@ namespace parser_maker::parser {
 
 
     bool parse(parse_context_type& pc);
+
+
+    std::string get_parser_error_string(ERROR_ID id);
 
 
 } //namespace parser_maker::parser
@@ -102,6 +112,30 @@ namespace parserlib {
 
                 case parser_maker::parser::AST_ID::CHAR_RANGE:
                     stream << "CHAR_RANGE";
+                    break;
+
+                case parser_maker::parser::AST_ID::LOGICAL_AND:
+                    stream << "LOGICAL_AND";
+                    break;
+
+                case parser_maker::parser::AST_ID::LOGICAL_NOT:
+                    stream << "LOGICAL_NOT";
+                    break;
+
+                case parser_maker::parser::AST_ID::FALSE:
+                    stream << "FALSE";
+                    break;
+
+                case parser_maker::parser::AST_ID::TRUE:
+                    stream << "TRUE";
+                    break;
+
+                case parser_maker::parser::AST_ID::ANY:
+                    stream << "ANY";
+                    break;
+
+                case parser_maker::parser::AST_ID::END:
+                    stream << "END";
                     break;
             }
         }
